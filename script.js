@@ -4,38 +4,22 @@
 
 
 $(function () {
-
   var container = $(".container-lg");
-  container.on("click", ".saveBtn", function () {
-    var timeblock = $(this).closest(".time-block");
-    var info = timeblock.data("info");
-    var eventText = timeblock.find(".a").val();
-    console.log(eventText);
-    localStorage.setItem("event_" + info, eventText);
-  });
 
-  // for (var a = 9; a <= 17; a++) {
-  //   var eventText = localStorage.getItem("event_" + a);
-  //   if (eventText) {
-  //     $(".time-block[data-hour='" + hour + "']")
-  //       .find(".event-input")
-  //       .val(eventText);
-  //   }
-  // }
-
-
+ 
+ 
   
   for (var i = 9; i <= 17; i++) {
-    var hour = i;
-    if(hour > 12){
-      hour = i-12+"PM";
+    var hours = i;
+    if(hours > 12){
+      hours = i-12+"PM";
     }
     else{
-      hour = i+"AM";
+      hours = i+"AM";
     }
 
-    var time = $("<div>").attr('id', 'hour-'+i).addClass("row time-block");
-    var hourclass = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(hour);
+    var time = $("<div>").attr('id', 'hour-'+i).addClass("row time-block").attr('num', i);
+    var hourclass = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(hours);
     var text = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows","3");
     var button = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label","save");
     var txt = $("<i>").addClass("fas fa-save").attr("aria_hidden","true");
@@ -60,23 +44,18 @@ $(function () {
       
     }
 
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  // var info = localStorage.getItem('info');
-  // description.textContent = info;
 
-  for (var hour = 9; hour <= 17; hour++) {
-    var eventText = localStorage.getItem("event_" + hour);
-    if (eventText) {
-      $(".timeblock[data-hour='" + hour + "']")
-        .find(".event-input")
-        .val(eventText);
+    
+    $(".saveBtn").on("click", function(){
+      var hour = $(this).data('num');
+      var event = $("#hour-" + hour).val();
+      localStorage.setItem("hour-" + hour, event);
+    });
+
+    for (var i = 9; i <= 17; i++) {
+      localStorage.getItem("hour-" + i);
     }
-  }
-
-
+  
 
 
   $('#currentDay').text(dayjs().format('dddd, MMMM, D'))
